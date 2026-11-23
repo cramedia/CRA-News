@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -15,7 +14,6 @@
             --border-color: rgba(0, 153, 255, 0.18);
             --primary: #0077ff;
             --primary-bright: #00a8ff;
-            --primary-glow: rgba(0, 119, 255, 0.25);
             --text-white: #ffffff;
             --text-muted: #94a3b8;
             --win: #16a34a;
@@ -51,8 +49,6 @@
             top: 0;
             z-index: 1000;
         }
-
-        /* Brand Logo (Tifinagh + Arabic + English) */
         .brand {
             display: flex;
             align-items: center;
@@ -88,8 +84,6 @@
             letter-spacing: 1.5px;
             text-transform: uppercase;
         }
-
-        /* Navigation Links */
         nav {
             height: 100%;
             display: flex;
@@ -123,7 +117,6 @@
             background: linear-gradient(180deg, rgba(0, 119, 255, 0.05) 0%, rgba(0, 119, 255, 0.2) 100%);
             border-bottom-color: var(--primary-bright);
         }
-
         @media (max-width: 950px) {
             nav ul { display: none; }
         }
@@ -161,7 +154,6 @@
             font-weight: 900;
             color: var(--text-white);
             margin-bottom: 10px;
-            letter-spacing: -0.5px;
         }
         .hero-sub {
             font-size: 13px;
@@ -180,7 +172,6 @@
             flex-direction: column;
             gap: 45px;
         }
-
         .section-pill {
             display: inline-block;
             background: rgba(0, 119, 255, 0.14);
@@ -242,8 +233,8 @@
             gap: 10px;
         }
         .v-team img {
-            width: 78px;
-            height: 78px;
+            width: 82px;
+            height: 82px;
             object-fit: contain;
         }
         .v-team strong {
@@ -274,6 +265,59 @@
             font-weight: 700;
         }
 
+        /* ================= CLUB LOGOS SHOWCASE ================= */
+        .clubs-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(125px, 1fr));
+            gap: 12px;
+            margin-top: 8px;
+        }
+        .club-tile {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 12px;
+            padding: 14px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            transition: 0.25s;
+        }
+        .club-tile:hover {
+            background: rgba(0, 119, 255, 0.15);
+            border-color: var(--primary-bright);
+            transform: translateY(-3px);
+        }
+        .club-tile img {
+            width: 44px;
+            height: 44px;
+            object-fit: contain;
+        }
+        .club-tile span {
+            font-size: 12px;
+            font-weight: 700;
+            text-align: center;
+            line-height: 1.3;
+        }
+        .club-tile small {
+            font-size: 10px;
+            color: var(--primary-bright);
+            font-weight: 800;
+        }
+
+        /* ================= LOGO FALLBACK BADGE ================= */
+        .logo-fallback {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0056b3, #0f172a);
+            border: 2px solid var(--primary-bright);
+            color: #ffffff;
+            font-weight: 900;
+            flex-shrink: 0;
+        }
+
         /* ================= FIXTURES & RESULTS ================= */
         .panel-box {
             background: var(--bg-card);
@@ -287,6 +331,7 @@
             justify-content: center;
             gap: 10px;
             margin-bottom: 22px;
+            flex-wrap: wrap;
         }
         .tab-btn {
             background: rgba(255,255,255,0.05);
@@ -334,8 +379,8 @@
             text-align: left;
         }
         .m-side img {
-            width: 34px;
-            height: 34px;
+            width: 38px;
+            height: 38px;
             object-fit: contain;
         }
         .m-club-info {
@@ -429,8 +474,8 @@
             font-weight: 700;
         }
         .t-club img {
-            width: 28px;
-            height: 28px;
+            width: 30px;
+            height: 30px;
             object-fit: contain;
         }
         .form-row {
@@ -551,10 +596,10 @@
 </head>
 <body>
 
-    <!-- HEADER (نفس ستايل الصورة بألوان شباب الريف الحسيمي + تيفيناغ) -->
+    <!-- HEADER -->
     <header>
         <a href="#" class="brand">
-            <img src="images/clubs/cra.png" onerror="this.src='logo.jpg'" alt="CRA Logo">
+            <img src="images/clubs/cra.png" onerror="handleLogoError(this, 'CRA', 52)" alt="CRA Logo">
             <div class="brand-titles">
                 <span class="title-tifinagh">ⵛⴰⴱⴰⴱ ⵔⵉⴼ ⵍⵃⵓⵙⵉⵎⴰ</span>
                 <span class="title-ar">شباب الريف الحسيمي</span>
@@ -567,15 +612,16 @@
                 <li><a href="#" class="active">الرئيسية</a></li>
                 <li><a href="#matches">جدول المباريات</a></li>
                 <li><a href="#standings">الترتيب</a></li>
+                <li><a href="#clubs">أندية البطولة</a></li>
                 <li><a href="#store">المتجر الرسمي</a></li>
                 <li><a href="#channels">قنوات النادي</a></li>
             </ul>
         </nav>
     </header>
 
-    <!-- HERO SECTION (نفس تصميم الترحيب واللوغو في الوسط) -->
+    <!-- HERO SECTION -->
     <section class="hero">
-        <img src="images/clubs/cra.png" onerror="this.src='logo.jpg'" alt="شباب الريف الحسيمي" class="hero-crest">
+        <img src="images/clubs/cra.png" onerror="handleLogoError(this, 'CRA', 125)" alt="شباب الريف الحسيمي" class="hero-crest">
         <p class="hero-welcome">مرحباً بكم في</p>
         <h1>الموقع الرسمي لشباب الريف الحسيمي</h1>
         <p class="hero-sub">CHABAB RIF AL HOCEIMA • OFFICIAL WEBSITE • 1953</p>
@@ -596,12 +642,12 @@
 
             <div class="versus-row">
                 <div class="v-team">
-                    <img src="images/clubs/cra.png" onerror="this.src='logo.jpg'" alt="CRA">
+                    <img src="images/clubs/cra.png" onerror="handleLogoError(this, 'CRA', 82)" alt="CRA">
                     <strong>شباب الريف الحسيمي</strong>
                 </div>
                 <div class="vs-circle">VS</div>
                 <div class="v-team">
-                    <img src="images/clubs/han.png" alt="HAN" onerror="this.style.opacity='0.4'">
+                    <img src="images/clubs/han.png" onerror="handleLogoError(this, 'HAN', 82)" alt="HAN">
                     <strong>الهلال الرياضي الناظوري</strong>
                 </div>
             </div>
@@ -639,6 +685,12 @@
                     <tbody id="standings-body"></tbody>
                 </table>
             </div>
+        </section>
+
+        <!-- جميع أندية البطولة بشعاراتها -->
+        <section class="panel-box" id="clubs">
+            <div class="section-pill">أندية البطولة موسم 2026/2027 (16 نادي)</div>
+            <div class="clubs-bar" id="all-clubs-grid"></div>
         </section>
 
         <!-- المتجر الرسمي -->
@@ -710,27 +762,55 @@
     </footer>
 
     <script>
-        // قاعدة بيانات الأندية وصورها في GitHub
+        // 1. جميع الأندية الـ 16 مع مسار الشعار لكل نادي
         const clubs = {
-            'CRA': { name: 'شباب الريف الحسيمي', logo: 'images/clubs/cra.png' },
-            'WAC ESP': { name: 'أمل الوداد الرياضي', logo: 'images/clubs/wac-esp.png' },
-            'EJSC': { name: 'نجم الشباب البيضاوي', logo: 'images/clubs/ejsc.png' },
-            'CSAT': { name: 'أجاكس طنجة', logo: 'images/clubs/csat.png' },
-            'TSS': { name: 'اتحاد سلا', logo: 'images/clubs/tss.png' },
-            'AFSO': { name: 'فتح ويسلان', logo: 'images/clubs/afso.png' },
-            'WARF': { name: 'الوفاء الرياضي الفاسي', logo: 'images/clubs/warf.png' },
-            'WSD': { name: 'وفاء الدريوش', logo: 'images/clubs/wsd.png' },
-            'DHKH': { name: 'دفاع حمرية خنيفرة', logo: 'images/clubs/dhkh.png' },
-            'ASS': { name: 'جمعية سلا', logo: 'images/clubs/ass.png' },
-            'FRN': { name: 'الفتح الرياضي الناظوري', logo: 'images/clubs/frn.png' },
-            'AQST': { name: 'القدس الرياضي التازي', logo: 'images/clubs/aqst.png' },
-            'UST': { name: 'اتحاد تمارة', logo: 'images/clubs/ust.png' },
-            'HLO': { name: 'حسنية لازاري وجدة', logo: 'images/clubs/hlo.png' },
-            'FUS ESP': { name: 'أمل إتحاد الفتح الرياضي', logo: 'images/clubs/fus-esp.png' },
-            'HAN': { name: 'الهلال الرياضي الناظوري', logo: 'images/clubs/han.png' }
+            'CRA':     { name: 'شباب الريف الحسيمي',    file: 'cra' },
+            'WAC ESP': { name: 'أمل الوداد الرياضي',    file: 'wac-esp' },
+            'EJSC':    { name: 'نجم الشباب البيضاوي',   file: 'ejsc' },
+            'CSAT':    { name: 'أجاكس طنجة',            file: 'csat' },
+            'TSS':     { name: 'اتحاد سلا',             file: 'tss' },
+            'AFSO':    { name: 'فتح ويسلان',            file: 'afso' },
+            'WARF':    { name: 'الوفاء الرياضي الفاسي', file: 'warf' },
+            'WSD':     { name: 'وفاء الدريوش',          file: 'wsd' },
+            'DHKH':    { name: 'دفاع حمرية خنيفرة',     file: 'dhkh' },
+            'ASS':     { name: 'جمعية سلا',             file: 'ass' },
+            'FRN':     { name: 'الفتح الرياضي الناظوري', file: 'frn' },
+            'AQST':    { name: 'القدس الرياضي التازي',   file: 'aqst' },
+            'UST':     { name: 'اتحاد تمارة',           file: 'ust' },
+            'HLO':     { name: 'حسنية لازاري وجدة',     file: 'hlo' },
+            'FUS ESP': { name: 'أمل إتحاد الفتح الرياضي', file: 'fus-esp' },
+            'HAN':     { name: 'الهلال الرياضي الناظوري', file: 'han' }
         };
 
-        // العداد التنازلي لمباراة 29 نوفمبر 2026
+        // دالة ذكية: تجرب .png ثم .jpg ثم logo.jpg (للـ CRA) ثم تعرض دائرة برمز النادي إذا لم تكن الصورة مرفوعة بعد
+        function handleLogoError(img, code, size = 34) {
+            const step = img.dataset.step || '0';
+            const club = clubs[code];
+            if (step === '0' && club) {
+                img.dataset.step = '1';
+                img.src = `images/clubs/${club.file}.jpg`;
+                return;
+            }
+            if (step === '1' && code === 'CRA') {
+                img.dataset.step = '2';
+                img.src = 'logo.jpg';
+                return;
+            }
+            const badge = document.createElement('span');
+            badge.className = 'logo-fallback';
+            badge.style.width = size + 'px';
+            badge.style.height = size + 'px';
+            badge.style.fontSize = Math.max(9, Math.floor(size * 0.3)) + 'px';
+            badge.textContent = code.split(' ')[0];
+            img.replaceWith(badge);
+        }
+
+        function clubImgTag(code, size = 34) {
+            const club = clubs[code];
+            return `<img src="images/clubs/${club.file}.png" alt="${code}" style="width:${size}px;height:${size}px;object-fit:contain;" onerror="handleLogoError(this, '${code}', ${size})">`;
+        }
+
+        // 2. العداد التنازلي لمباراة 29 نوفمبر 2026
         const targetDate = new Date("2026-11-29T15:00:00").getTime();
         function updateTimer() {
             const diff = targetDate - new Date().getTime();
@@ -743,7 +823,19 @@
         updateTimer();
         setInterval(updateTimer, 1000);
 
-        // بيانات الترتيب
+        // 3. عرض شبكة جميع أندية البطولة بشعاراتها
+        const allClubsGrid = document.getElementById('all-clubs-grid');
+        Object.keys(clubs).forEach(code => {
+            allClubsGrid.innerHTML += `
+                <div class="club-tile">
+                    ${clubImgTag(code, 46)}
+                    <span>${clubs[code].name}</span>
+                    <small>${code}</small>
+                </div>
+            `;
+        });
+
+        // 4. بيانات الترتيب مع الشعارات
         const standings = [
             { pos: 1, code: 'WAC ESP', pts: 21, diff: '+12', form: [], cls: 'r-promo' },
             { pos: 2, code: 'EJSC', pts: 17, diff: '+6', form: ['ف','ف','ف','ت'], cls: 'r-playoff' },
@@ -773,7 +865,7 @@
             sBody.innerHTML += `
                 <tr class="${s.isCra ? 'cra-row' : ''}">
                     <td><span class="rank-pill ${s.cls || ''}">${s.pos}</span></td>
-                    <td><div class="t-club"><img src="${clubs[s.code].logo}" alt="${s.code}"><span>${clubs[s.code].name}</span></div></td>
+                    <td><div class="t-club">${clubImgTag(s.code, 30)}<span>${clubs[s.code].name}</span></div></td>
                     <td><strong>${s.pts}</strong></td>
                     <td dir="ltr" style="text-align:right">${s.diff}</td>
                     <td><div class="form-row">${formHtml || '-'}</div></td>
@@ -781,7 +873,7 @@
             `;
         });
 
-        // بيانات المباريات (J1 - J30)
+        // 5. بيانات المباريات (J1 - J30) مع الشعارات
         const matches = [
             { type: 'results', j: 'الجولة 1', date: '10 أكتوبر 2026', home: 'CSAT', away: 'CRA', score: '3 - 2', res: 'loss' },
             { type: 'results', j: 'الجولة 2', date: '18 أكتوبر 2026', home: 'CRA', away: 'AFSO', score: '0 - 0', res: 'draw' },
@@ -827,7 +919,7 @@
                 list.innerHTML += `
                     <div class="match-row-card">
                         <div class="m-side">
-                            <img src="${clubs[m.home].logo}" alt="${m.home}">
+                            ${clubImgTag(m.home, 38)}
                             <div class="m-club-info">
                                 <span class="m-club-name">${clubs[m.home].name}</span>
                                 <span class="m-club-code">${m.home}</span>
@@ -842,7 +934,7 @@
                                 <span class="m-club-name">${clubs[m.away].name}</span>
                                 <span class="m-club-code">${m.away}</span>
                             </div>
-                            <img src="${clubs[m.away].logo}" alt="${m.away}">
+                            ${clubImgTag(m.away, 38)}
                         </div>
                     </div>
                 `;
