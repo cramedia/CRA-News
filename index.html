@@ -3,17 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRA-News | Site Officiel</title>
+    <title>CRA-News | Chabab Rif Al Hoceima - Site Officiel</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #0056b3;
-            --primary-dark: #003366;
-            --secondary: #0099ff;
-            --bg-light: #f4f7f6;
+            --primary-dark: #002b5c;
+            --secondary: #00a8ff;
+            --bg-light: #f1f5f9;
             --dark: #0f172a;
             --white: #ffffff;
             --gray: #64748b;
+            --win: #16a34a;
+            --draw: #64748b;
+            --loss: #dc2626;
         }
         * {
             margin: 0;
@@ -21,13 +24,17 @@
             box-sizing: border-box;
             font-family: 'Cairo', sans-serif;
         }
+        html {
+            scroll-behavior: smooth;
+        }
         body {
             background-color: var(--bg-light);
             color: var(--dark);
         }
         /* Header */
         header {
-            background-color: var(--dark);
+            background-color: rgba(15, 23, 42, 0.97);
+            backdrop-filter: blur(8px);
             color: var(--white);
             padding: 12px 5%;
             display: flex;
@@ -36,7 +43,7 @@
             position: sticky;
             top: 0;
             z-index: 1000;
-            border-bottom: 3px solid var(--primary);
+            border-bottom: 3px solid var(--secondary);
         }
         .logo {
             font-size: 24px;
@@ -48,8 +55,8 @@
             gap: 12px;
         }
         .logo img {
-            height: 45px;
-            width: 45px;
+            height: 46px;
+            width: 46px;
             object-fit: contain;
             background: var(--white);
             border-radius: 50%;
@@ -61,13 +68,13 @@
         nav ul {
             list-style: none;
             display: flex;
-            gap: 25px;
+            gap: 24px;
         }
         nav a {
             color: var(--white);
             text-decoration: none;
-            font-weight: 600;
-            font-size: 15px;
+            font-weight: 700;
+            font-size: 14.5px;
             transition: color 0.3s;
         }
         nav a:hover {
@@ -75,39 +82,52 @@
         }
         /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 60%, #0077cc 100%);
             color: var(--white);
-            padding: 60px 5%;
+            padding: 65px 5% 90px;
             text-align: center;
+            position: relative;
+        }
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
         }
         .hero h1 {
             font-size: 38px;
             font-weight: 900;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             text-transform: uppercase;
         }
         .hero p {
             font-size: 16px;
             opacity: 0.9;
-            margin-bottom: 30px;
         }
         /* Match Center */
         .match-center {
             max-width: 1200px;
-            margin: -40px auto 40px;
+            margin: -50px auto 40px;
             padding: 0 20px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 22px;
+            position: relative;
+            z-index: 10;
         }
         .card {
             background: var(--white);
-            border-radius: 12px;
+            border-radius: 14px;
             padding: 25px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+            border: 1px solid #e2e8f0;
         }
         .card-header {
-            font-size: 14px;
+            font-size: 13.5px;
             font-weight: 700;
             color: var(--primary);
             text-transform: uppercase;
@@ -116,6 +136,21 @@
             margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
+            align-items: center;
+        }
+        .badge-loss {
+            background: #fee2e2;
+            color: var(--loss);
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+        .badge-derby {
+            background: #dbeafe;
+            color: var(--primary);
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
         }
         .match-teams {
             display: flex;
@@ -125,18 +160,25 @@
             margin: 15px 0;
         }
         .team {
-            width: 35%;
+            width: 38%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .team strong {
+            display: block;
+            font-size: 15px;
+            line-height: 1.3;
+            margin-top: 8px;
         }
         .team-logo-img {
-            width: 65px;
-            height: 65px;
+            width: 70px;
+            height: 70px;
             object-fit: contain;
-            margin: 0 auto 10px;
-            display: block;
         }
-        .team-logo {
-            width: 65px;
-            height: 65px;
+        .fallback-logo {
+            width: 68px;
+            height: 68px;
             background: var(--dark);
             color: var(--white);
             border-radius: 50%;
@@ -144,11 +186,11 @@
             align-items: center;
             justify-content: center;
             font-weight: 900;
-            margin: 0 auto 10px;
-            font-size: 18px;
+            font-size: 14px;
+            border: 3px solid #cbd5e1;
         }
         .score-box {
-            font-size: 32px;
+            font-size: 34px;
             font-weight: 900;
             color: var(--dark);
         }
@@ -159,27 +201,28 @@
             margin-top: 15px;
         }
         .time-box {
-            background: var(--primary);
+            background: linear-gradient(180deg, var(--primary), var(--primary-dark));
             color: var(--white);
             padding: 8px 12px;
-            border-radius: 6px;
+            border-radius: 8px;
             text-align: center;
-            min-width: 55px;
+            min-width: 58px;
         }
         .time-box span {
             display: block;
-            font-size: 18px;
-            font-weight: 700;
+            font-size: 19px;
+            font-weight: 900;
         }
         .time-box small {
             font-size: 11px;
-            opacity: 0.8;
+            opacity: 0.85;
         }
         .match-info {
             text-align: center;
             font-size: 13px;
             color: var(--gray);
             margin-top: 15px;
+            font-weight: 600;
         }
         /* Main Layout (News + Standings) */
         .container {
@@ -187,10 +230,10 @@
             margin: 0 auto 50px;
             padding: 0 20px;
             display: grid;
-            grid-template-columns: 2fr 1fr;
+            grid-template-columns: 1.65fr 1.35fr;
             gap: 30px;
         }
-        @media (max-width: 900px) {
+        @media (max-width: 980px) {
             .container {
                 grid-template-columns: 1fr;
             }
@@ -204,34 +247,41 @@
             margin-bottom: 20px;
             border-left: 5px solid var(--primary);
             padding-left: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         /* News Grid */
         .news-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
         }
         .news-card {
             background: var(--white);
-            border-radius: 10px;
+            border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid #e2e8f0;
         }
         .news-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
         .news-img {
-            height: 180px;
+            height: 155px;
             background: linear-gradient(45deg, var(--primary-dark), var(--secondary));
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--white);
-            font-weight: 700;
+            font-weight: 900;
+            letter-spacing: 1px;
+            position: relative;
         }
         .news-content {
-            padding: 20px;
+            padding: 18px;
         }
         .news-date {
             font-size: 12px;
@@ -239,35 +289,206 @@
             font-weight: 700;
         }
         .news-title {
-            font-size: 17px;
+            font-size: 16px;
             font-weight: 700;
-            margin: 8px 0;
+            margin: 6px 0 8px;
+            line-height: 1.4;
         }
         .news-excerpt {
-            font-size: 14px;
+            font-size: 13.5px;
             color: var(--gray);
+            line-height: 1.5;
         }
         /* Standings Table */
+        .standings-card {
+            background: var(--white);
+            border-radius: 14px;
+            padding: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            border: 1px solid #e2e8f0;
+            overflow-x: auto;
+        }
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 14px;
+            font-size: 13px;
         }
         th, td {
-            padding: 12px 8px;
+            padding: 9px 6px;
             text-align: left;
             border-bottom: 1px solid #e2e8f0;
+            vertical-align: middle;
         }
         th {
             background-color: #f8fafc;
             font-weight: 700;
             color: var(--gray);
+            font-size: 12px;
         }
         tr.highlight {
-            background-color: #eff6ff;
-            font-weight: 700;
-            color: var(--primary);
+            background-color: #dbeafe;
+            font-weight: 900;
+            color: var(--primary-dark);
         }
+        .club-cell {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+        }
+        .mini-logo {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+        .mini-fallback {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--dark);
+            color: white;
+            font-size: 9px;
+            font-weight: 900;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .pos-badge {
+            display: inline-block;
+            width: 22px;
+            height: 22px;
+            line-height: 22px;
+            text-align: center;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 12px;
+        }
+        .pos-promo { background: #16a34a; color: white; }
+        .pos-playoff { background: #2563eb; color: white; }
+        .pos-releg-playoff { background: #f59e0b; color: white; }
+        .pos-releg { background: #dc2626; color: white; }
+        .form-dots {
+            display: flex;
+            gap: 3px;
+        }
+        .dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: 700;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .dot-v { background: var(--win); }
+        .dot-n { background: var(--draw); }
+        .dot-d { background: var(--loss); }
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 12px;
+            font-size: 11.5px;
+            color: var(--gray);
+            padding-top: 8px;
+        }
+        .legend span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .legend i {
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+            display: inline-block;
+        }
+
+        /* Full Schedule Section */
+        .schedule-section {
+            max-width: 1200px;
+            margin: 0 auto 50px;
+            padding: 0 20px;
+        }
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            padding: 9px 20px;
+            border: 2px solid var(--primary);
+            background: var(--white);
+            color: var(--primary);
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .tab-btn.active, .tab-btn:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+        .fixtures-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+            gap: 15px;
+        }
+        .fixture-item {
+            background: var(--white);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            border-left: 4px solid var(--primary);
+            border-top: 1px solid #e2e8f0;
+            border-right: 1px solid #e2e8f0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .fixture-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--gray);
+            font-weight: 700;
+        }
+        .fixture-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+            font-size: 13.5px;
+            gap: 8px;
+        }
+        .fixture-team {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            width: 39%;
+        }
+        .fixture-team.away {
+            justify-content: flex-end;
+            text-align: right;
+        }
+        .fixture-score {
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 900;
+            font-size: 13px;
+            background: #f1f5f9;
+            white-space: nowrap;
+        }
+        .score-win { background: #dcfce7; color: var(--win); }
+        .score-draw { background: #e2e8f0; color: var(--dark); }
+        .score-loss { background: #fee2e2; color: var(--loss); }
+
         /* Store Section */
         .store-section {
             max-width: 1200px;
@@ -277,38 +498,59 @@
         .store-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+            gap: 22px;
         }
         .product-card {
             background: var(--white);
-            border-radius: 10px;
-            padding: 20px;
+            border-radius: 12px;
+            padding: 18px;
             text-align: center;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+            transition: transform 0.3s;
         }
-        .product-img {
-            height: 200px;
-            background: #e2e8f0;
-            border-radius: 8px;
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        .product-img-box {
+            height: 220px;
+            background: #f8fafc;
+            border-radius: 10px;
             margin-bottom: 15px;
+            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
+            position: relative;
+        }
+        .product-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--primary);
+            color: white;
+            font-size: 11px;
             font-weight: 700;
-            color: var(--primary-dark);
+            padding: 3px 10px;
+            border-radius: 20px;
         }
         .price {
-            font-size: 18px;
+            font-size: 19px;
             font-weight: 900;
             color: var(--primary);
-            margin: 10px 0;
+            margin: 8px 0 12px;
         }
         .btn {
             background: var(--primary);
             color: var(--white);
             border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
+            padding: 11px 20px;
+            border-radius: 8px;
             font-weight: 700;
             cursor: pointer;
             width: 100%;
@@ -322,8 +564,12 @@
             background: var(--dark);
             color: var(--white);
             text-align: center;
-            padding: 30px 5%;
-            border-top: 4px solid var(--primary);
+            padding: 35px 5%;
+            border-top: 4px solid var(--secondary);
+        }
+        footer p {
+            opacity: 0.85;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -331,14 +577,15 @@
 
     <header>
         <a href="#" class="logo">
-            <img src="logo.jpg" alt="CRA Logo">
+            <img src="images/clubs/cra.png" onerror="this.src='logo.jpg'" alt="CRA Logo">
             CRA<span>-NEWS</span>
         </a>
         <nav>
             <ul>
                 <li><a href="#">Accueil</a></li>
-                <li><a href="#matches">Calendrier</a></li>
+                <li><a href="#matches">Matchs</a></li>
                 <li><a href="#standings">Classement</a></li>
+                <li><a href="#calendrier-complet">Calendrier 26/27</a></li>
                 <li><a href="#news">Actualités</a></li>
                 <li><a href="#store">Boutique</a></li>
             </ul>
@@ -346,54 +593,56 @@
     </header>
 
     <section class="hero">
+        <span class="hero-badge">SAISON 2026 / 2027 • FONDÉ EN 1953</span>
         <h1>CRA-NEWS • CHABAB RIF AL HOCEIMA</h1>
-        <p>Site d'actualité officiel • Depuis 1953 • Identité Bleue</p>
+        <p>Toute l'actualité officielle, les résultats en direct, le classement et la boutique des Bleus du Rif</p>
     </section>
 
     <section class="match-center" id="matches">
-        <!-- Dernier Résultat -->
+        <!-- Dernier Résultat (Journée 7 - 21 Nov 2026) -->
         <div class="card">
             <div class="card-header">
-                <span>Dernier Match</span>
-                <span>Terminé</span>
+                <span>Dernier Match • Journée 7</span>
+                <span class="badge-loss">Terminé</span>
             </div>
             <div class="match-teams">
                 <div class="team">
-                    <img src="logo.jpg" alt="CRA" class="team-logo-img">
-                    <strong>CRA</strong>
+                    <img src="images/clubs/wac-esp.png" alt="WAC ESP" class="team-logo-img" onerror="this.outerHTML='<div class=\'fallback-logo\'>WAC</div>'">
+                    <strong>Amal Wydad</strong>
                 </div>
-                <div class="score-box">2 - 0</div>
+                <div class="score-box">1 - 0</div>
                 <div class="team">
-                    <div class="team-logo">ADV</div>
-                    <strong>Adversaire</strong>
+                    <img src="images/clubs/cra.png" onerror="this.src='logo.jpg'" alt="CRA" class="team-logo-img">
+                    <strong>CRA Al Hoceima</strong>
                 </div>
             </div>
-            <div class="match-info">Stade Mimoun Al Arsi • Journée 7</div>
+            <div class="match-info">Samedi 21 Novembre 2026 • Championnat National</div>
         </div>
 
-        <!-- Prochain Match -->
+        <!-- Prochain Match (Journée 8 - Derby du Rif) -->
         <div class="card">
             <div class="card-header">
-                <span>Prochain Match</span>
-                <span>Journée 8</span>
+                <span>Prochain Match • Journée 8</span>
+                <span class="badge-derby">Derby du Rif</span>
             </div>
             <div class="match-teams">
                 <div class="team">
-                    <div class="team-logo">ADV</div>
-                    <strong>Adversaire</strong>
+                    <img src="images/clubs/cra.png" onerror="this.src='logo.jpg'" alt="CRA" class="team-logo-img">
+                    <strong>CRA Al Hoceima</strong>
                 </div>
-                <div class="score-box" style="font-size: 20px; color: var(--primary);">VS</div>
+                <div class="score-box" style="font-size: 22px; color: var(--primary);">VS</div>
                 <div class="team">
-                    <img src="logo.jpg" alt="CRA" class="team-logo-img">
-                    <strong>CRA</strong>
+                    <img src="images/clubs/han.png" alt="HAN" class="team-logo-img" onerror="this.outerHTML='<div class=\'fallback-logo\'>HAN</div>'">
+                    <strong>Hilal Athletic Nador</strong>
                 </div>
             </div>
             <div class="countdown" id="countdown">
                 <div class="time-box"><span id="days">06</span><small>Jours</small></div>
-                <div class="time-box"><span id="hours">14</span><small>Heures</small></div>
-                <div class="time-box"><span id="mins">45</span><small>Min</small></div>
-                <div class="time-box"><span id="secs">30</span><small>Sec</small></div>
+                <div class="time-box"><span id="hours">11</span><small>Heures</small></div>
+                <div class="time-box"><span id="mins">20</span><small>Min</small></div>
+                <div class="time-box"><span id="secs">00</span><small>Sec</small></div>
             </div>
+            <div class="match-info">Dimanche 29 Novembre 2026 à 15h00 • Stade Mimoun Al Arsi "Chipola"</div>
         </div>
     </section>
 
@@ -403,133 +652,278 @@
             <h2 class="section-title">Dernières Actualités</h2>
             <div class="news-grid">
                 <article class="news-card">
-                    <div class="news-img">PHOTO MATCH</div>
+                    <div class="news-img">DERBY DU RIF • J8</div>
                     <div class="news-content">
-                        <span class="news-date">22 Novembre 2026</span>
-                        <h3 class="news-title">Victoire importante à domicile devant nos supporters</h3>
-                        <p class="news-excerpt">Le club s'impose avec la manière lors de cette 7ème journée du championnat.</p>
+                        <span class="news-date">23 Novembre 2026</span>
+                        <h3 class="news-title">Cap sur le Derby du Rif face au Hilal Nador à Chipola</h3>
+                        <p class="news-excerpt">Le CRA accueille le Hilal Athletic Nador ce dimanche 29 novembre à 15h00 au Stade Mimoun Al Arsi pour la 8ème journée.</p>
                     </div>
                 </article>
                 <article class="news-card">
-                    <div class="news-img">ENTRAÎNEMENT</div>
+                    <div class="news-img">COMPTE-RENDU J7</div>
                     <div class="news-content">
-                        <span class="news-date">19 Novembre 2026</span>
-                        <h3 class="news-title">Préparation intensive avant le déplacement</h3>
-                        <p class="news-excerpt">Le groupe affiche une grande détermination sous la houlette du staff technique.</p>
+                        <span class="news-date">21 Novembre 2026</span>
+                        <h3 class="news-title">Courte défaite du CRA sur la pelouse d'Amal Wydad (1-0)</h3>
+                        <p class="news-excerpt">Malgré une belle résistance face au leader du championnat, les Bleus s'inclinent d'un petit but lors de la 7ème journée.</p>
                     </div>
                 </article>
                 <article class="news-card">
-                    <div class="news-img">COMMUNIQUÉ</div>
+                    <div class="news-img">VICTOIRE J6</div>
                     <div class="news-content">
                         <span class="news-date">15 Novembre 2026</span>
-                        <h3 class="news-title">Ouverture de la campagne d'adhésion 2026/2027</h3>
-                        <p class="news-excerpt">Rejoignez la famille bleue et soutenez votre équipe tout au long de la saison.</p>
+                        <h3 class="news-title">Festival offensif à domicile face à l'Ittihad Salé (3-0)</h3>
+                        <p class="news-excerpt">Devant son public, le Chabab Rif Al Hoceima a livré sa prestation la plus aboutie de la saison en s'imposant 3 buts à 0.</p>
                     </div>
                 </article>
                 <article class="news-card">
-                    <div class="news-img">ACADÉMIE</div>
+                    <div class="news-img">BOUTIQUE 26/27</div>
                     <div class="news-content">
                         <span class="news-date">10 Novembre 2026</span>
-                        <h3 class="news-title">Les U15 démarrent la saison par un succès</h3>
-                        <p class="news-excerpt">Nos jeunes talents brillent dès l'entame du championnat régional.</p>
+                        <h3 class="news-title">Les nouveaux maillots 2026/2027 disponibles en boutique</h3>
+                        <p class="news-excerpt">Commandez dès maintenant les tenues officielles Domicile, Extérieur et Third aux couleurs du Chabab.</p>
                     </div>
                 </article>
             </div>
         </section>
 
-        <!-- Classement -->
+        <!-- Classement Officiel (Généré avec les logos des 16 clubs) -->
         <aside id="standings">
-            <h2 class="section-title">Classement</h2>
-            <div class="card" style="padding: 15px;">
+            <h2 class="section-title">Classement Officiel (J7)</h2>
+            <div class="standings-card">
                 <table>
                     <thead>
                         <tr>
                             <th>#</th>
                             <th>Club</th>
-                            <th>MJ</th>
+                            <th>Diff</th>
+                            <th>Forme</th>
                             <th>PTS</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr class="highlight">
-                            <td>1</td>
-                            <td>CRA-News</td>
-                            <td>7</td>
-                            <td>16</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Club B</td>
-                            <td>7</td>
-                            <td>14</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>Club C</td>
-                            <td>7</td>
-                            <td>13</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>Club D</td>
-                            <td>7</td>
-                            <td>11</td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>Club E</td>
-                            <td>7</td>
-                            <td>10</td>
-                        </tr>
-                    </tbody>
+                    <tbody id="standings-body"></tbody>
                 </table>
+                <div class="legend">
+                    <span><i style="background:#16a34a"></i> Promotion</span>
+                    <span><i style="background:#2563eb"></i> Barrage montée</span>
+                    <span><i style="background:#f59e0b"></i> Barrage relégation</span>
+                    <span><i style="background:#dc2626"></i> Relégation</span>
+                </div>
             </div>
         </aside>
     </div>
 
-    <!-- Boutique -->
+    <!-- Calendrier & Résultats Saison 2026/2027 -->
+    <section class="schedule-section" id="calendrier-complet">
+        <h2 class="section-title">Calendrier & Résultats • Saison 2026/2027</h2>
+        <div class="tabs">
+            <button class="tab-btn active" onclick="filterMatches('upcoming', this)">Prochains Matchs (J8 - J30)</button>
+            <button class="tab-btn" onclick="filterMatches('results', this)">Résultats Joués (J1 - J7)</button>
+        </div>
+        <div class="fixtures-grid" id="fixtures-container"></div>
+    </section>
+
+    <!-- Boutique Officielle -->
     <section class="store-section" id="store">
-        <h2 class="section-title">Boutique Officielle</h2>
+        <h2 class="section-title">Boutique Officielle 2026/2027</h2>
         <div class="store-grid">
             <div class="product-card">
-                <div class="product-img" style="background: var(--primary); color: white;">MAILLOT BLEU</div>
+                <div class="product-img-box">
+                    <span class="product-badge">Officiel</span>
+                    <img src="images/store/maillot-bleu.jpg" alt="Maillot Domicile 26/27" onerror="this.style.display='none'; this.parentElement.style.background='#0056b3'; this.parentElement.style.color='white'; this.parentElement.innerHTML+='<strong>MAILLOT DOMICILE BLEU</strong>'">
+                </div>
                 <h3>Maillot Domicile 26/27</h3>
                 <div class="price">200.00 MAD</div>
-                <button class="btn" onclick="alert('Ajouté au panier !')">Commander</button>
+                <button class="btn" onclick="alert('Maillot Domicile 26/27 ajouté au panier !')">Commander</button>
             </div>
             <div class="product-card">
-                <div class="product-img" style="background: #f8fafc; border: 1px solid #cbd5e1;">MAILLOT BLANC</div>
+                <div class="product-img-box">
+                    <span class="product-badge">Extérieur</span>
+                    <img src="images/store/maillot-blanc.jpg" alt="Maillot Extérieur 26/27" onerror="this.style.display='none'; this.parentElement.style.background='#f1f5f9'; this.parentElement.style.color='#002b5c'; this.parentElement.innerHTML+='<strong>MAILLOT EXTÉRIEUR BLANC</strong>'">
+                </div>
                 <h3>Maillot Extérieur 26/27</h3>
                 <div class="price">200.00 MAD</div>
-                <button class="btn" onclick="alert('Ajouté au panier !')">Commander</button>
+                <button class="btn" onclick="alert('Maillot Extérieur 26/27 ajouté au panier !')">Commander</button>
             </div>
             <div class="product-card">
-                <div class="product-img" style="background: var(--dark); color: white;">MAILLOT NOIR</div>
+                <div class="product-img-box">
+                    <span class="product-badge">Édition Spéciale</span>
+                    <img src="images/store/maillot-noir.jpg" alt="Maillot Third 26/27" onerror="this.style.display='none'; this.parentElement.style.background='#0f172a'; this.parentElement.style.color='white'; this.parentElement.innerHTML+='<strong>MAILLOT THIRD NOIR</strong>'">
+                </div>
                 <h3>Maillot Third 26/27</h3>
                 <div class="price">200.00 MAD</div>
-                <button class="btn" onclick="alert('Ajouté au panier !')">Commander</button>
+                <button class="btn" onclick="alert('Maillot Third 26/27 ajouté au panier !')">Commander</button>
+            </div>
+            <div class="product-card">
+                <div class="product-img-box">
+                    <span class="product-badge">Supporters</span>
+                    <img src="images/store/echarpe-cra.jpg" alt="Écharpe CRA 1953" onerror="this.style.display='none'; this.parentElement.style.background='#00a8ff'; this.parentElement.style.color='white'; this.parentElement.innerHTML+='<strong>ÉCHARPE CRA 1953</strong>'">
+                </div>
+                <h3>Écharpe Officielle CRA 1953</h3>
+                <div class="price">80.00 MAD</div>
+                <button class="btn" onclick="alert('Écharpe Officielle CRA ajoutée au panier !')">Commander</button>
             </div>
         </div>
     </section>
 
     <footer>
-        <p>© 2026 CRA-News • Chabab Rif Al Hoceima • Tous droits réservés</p>
+        <p>© 2026 CRA-News • Chabab Rif Al Hoceima (Depuis 1953) • Tous droits réservés</p>
     </footer>
 
     <script>
-        let totalSeconds = (6 * 86400) + (14 * 3600) + (45 * 60) + 30;
-        setInterval(() => {
-            if (totalSeconds <= 0) return;
-            totalSeconds--;
-            const d = Math.floor(totalSeconds / 86400);
-            const h = Math.floor((totalSeconds % 86400) / 3600);
-            const m = Math.floor((totalSeconds % 3600) / 60);
-            const s = totalSeconds % 60;
+        // 1. Dictionnaire des clubs et chemins des logos sur GitHub
+        const clubs = {
+            'CRA': { name: 'CRA Al Hoceima', logo: 'images/clubs/cra.png' },
+            'WAC ESP': { name: 'Amal Wydad', logo: 'images/clubs/wac-esp.png' },
+            'EJSC': { name: 'Najm Shabab', logo: 'images/clubs/ejsc.png' },
+            'CSAT': { name: 'Ajax Tanger', logo: 'images/clubs/csat.png' },
+            'TSS': { name: 'Ittihad Salé', logo: 'images/clubs/tss.png' },
+            'AFSO': { name: 'Fath Ouislane', logo: 'images/clubs/afso.png' },
+            'WARF': { name: 'Wafaa Fès', logo: 'images/clubs/warf.png' },
+            'WSD': { name: 'Wafaa Driouch', logo: 'images/clubs/wsd.png' },
+            'DHKH': { name: 'Difaa Khénifra', logo: 'images/clubs/dhkh.png' },
+            'ASS': { name: 'AS Salé', logo: 'images/clubs/ass.png' },
+            'FRN': { name: 'Fath Nador', logo: 'images/clubs/frn.png' },
+            'AQST': { name: 'Al Qods Taza', logo: 'images/clubs/aqst.png' },
+            'UST': { name: 'Ittihad Témara', logo: 'images/clubs/ust.png' },
+            'HLO': { name: 'Hassania Lazari', logo: 'images/clubs/hlo.png' },
+            'FUS ESP': { name: 'Amal FUS', logo: 'images/clubs/fus-esp.png' },
+            'HAN': { name: 'Hilal Nador', logo: 'images/clubs/han.png' }
+        };
+
+        function getLogoHtml(code) {
+            const club = clubs[code];
+            const fallback = `<span class="mini-fallback">${code.slice(0,3)}</span>`;
+            if (!club) return fallback;
+            return `<img src="${club.logo}" alt="${code}" class="mini-logo" onerror="this.outerHTML='<span class=\\'mini-fallback\\'>${code.slice(0,3)}</span>'">`;
+        }
+
+        // 2. Compte à rebours jusqu'au Dimanche 29 Novembre 2026 à 15:00
+        const targetDate = new Date("2026-11-29T15:00:00").getTime();
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+            if (distance <= 0) {
+                document.getElementById('countdown').innerHTML = "<strong style='color:var(--primary)'>MATCH EN COURS / TERMINÉ</strong>";
+                return;
+            }
+            const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((distance % (1000 * 60)) / 1000);
+
             document.getElementById('days').innerText = String(d).padStart(2, '0');
             document.getElementById('hours').innerText = String(h).padStart(2, '0');
             document.getElementById('mins').innerText = String(m).padStart(2, '0');
             document.getElementById('secs').innerText = String(s).padStart(2, '0');
-        }, 1000);
+        }
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        // 3. Données du classement (J7)
+        const standingsData = [
+            { pos: 1, code: 'WAC ESP', diff: '+12', form: [], pts: 21, badge: 'pos-promo' },
+            { pos: 2, code: 'EJSC', diff: '+6', form: ['V','V','V','N'], pts: 17, badge: 'pos-playoff' },
+            { pos: 3, code: 'CSAT', diff: '+6', form: ['D','V','V','N'], pts: 13 },
+            { pos: 4, code: 'TSS', diff: '+4', form: ['N','V','D','V'], pts: 11 },
+            { pos: 5, code: 'AFSO', diff: '+2', form: ['V','D','V','N'], pts: 11 },
+            { pos: 6, code: 'WARF', diff: '-3', form: ['V','D','N','N'], pts: 9 },
+            { pos: 7, code: 'WSD', diff: '0', form: ['D','V','D','N'], pts: 9 },
+            { pos: 8, code: 'DHKH', diff: '0', form: ['D','V','N','D'], pts: 8 },
+            { pos: 9, code: 'ASS', diff: '0', form: ['V','D','N','D'], pts: 8 },
+            { pos: 10, code: 'FRN', diff: '-1', form: ['D','D','D','N'], pts: 8 },
+            { pos: 11, code: 'CRA', diff: '-4', form: ['D','V','V','D'], pts: 7, highlight: true },
+            { pos: 12, code: 'AQST', diff: '-5', form: ['D','V','N','N'], pts: 7 },
+            { pos: 13, code: 'UST', diff: '-7', form: ['D','D','N','N'], pts: 6, badge: 'pos-releg-playoff' },
+            { pos: 14, code: 'HLO', diff: '-2', form: ['N','D','D','V'], pts: 6, badge: 'pos-releg-playoff' },
+            { pos: 15, code: 'FUS ESP', diff: '-5', form: ['D','D','D','N'], pts: 5, badge: 'pos-releg' },
+            { pos: 16, code: 'HAN', diff: '-7', form: ['N','D','N','D'], pts: 4, badge: 'pos-releg' }
+        ];
+
+        const standingsBody = document.getElementById('standings-body');
+        standingsData.forEach(row => {
+            const posHtml = row.badge ? `<span class="pos-badge ${row.badge}">${row.pos}</span>` : row.pos;
+            const formHtml = row.form.length 
+                ? `<div class="form-dots">${row.form.map(f => `<span class="dot dot-${f.toLowerCase()}">${f}</span>`).join('')}</div>` 
+                : '-';
+            standingsBody.innerHTML += `
+                <tr class="${row.highlight ? 'highlight' : ''}">
+                    <td>${posHtml}</td>
+                    <td><div class="club-cell">${getLogoHtml(row.code)}<span>${clubs[row.code].name}</span></div></td>
+                    <td>${row.diff}</td>
+                    <td>${formHtml}</td>
+                    <td><strong>${row.pts}</strong></td>
+                </tr>
+            `;
+        });
+
+        // 4. Données complètes du calendrier (J1 à J30) avec logos
+        const matchesData = [
+            { type: 'results', j: 'J1', date: '10 Oct 2026', home: 'CSAT', away: 'CRA', score: '3 - 2', status: 'loss' },
+            { type: 'results', j: 'J2', date: '18 Oct 2026', home: 'CRA', away: 'AFSO', score: '0 - 0', status: 'draw' },
+            { type: 'results', j: 'J3', date: '24 Oct 2026', home: 'WARF', away: 'CRA', score: '3 - 1', status: 'loss' },
+            { type: 'results', j: 'J4', date: '01 Nov 2026', home: 'CRA', away: 'UST', score: '2 - 0', status: 'win' },
+            { type: 'results', j: 'J5', date: '08 Nov 2026', home: 'HLO', away: 'CRA', score: '0 - 1', status: 'win' },
+            { type: 'results', j: 'J6', date: '15 Nov 2026', home: 'CRA', away: 'TSS', score: '3 - 0', status: 'win' },
+            { type: 'results', j: 'J7', date: '21 Nov 2026', home: 'WAC ESP', away: 'CRA', score: '1 - 0', status: 'loss' },
+
+            { type: 'upcoming', j: 'J8', date: '29 Nov 2026', home: 'CRA', away: 'HAN', score: '15:00' },
+            { type: 'upcoming', j: 'J9', date: '06 Déc 2026', home: 'CRA', away: 'DHKH', score: '15:00' },
+            { type: 'upcoming', j: 'J10', date: '13 Déc 2026', home: 'AQST', away: 'CRA', score: '15:00' },
+            { type: 'upcoming', j: 'J11', date: '20 Déc 2026', home: 'CRA', away: 'FRN', score: '15:00' },
+            { type: 'upcoming', j: 'J12', date: '27 Déc 2026', home: 'FUS ESP', away: 'CRA', score: '15:00' },
+            { type: 'upcoming', j: 'J13', date: '03 Jan 2027', home: 'CRA', away: 'WSD', score: '15:00' },
+            { type: 'upcoming', j: 'J14', date: '10 Jan 2027', home: 'ASS', away: 'CRA', score: '15:00' },
+            { type: 'upcoming', j: 'J15', date: '17 Jan 2027', home: 'CRA', away: 'EJSC', score: '15:00' },
+            { type: 'upcoming', j: 'J16', date: '07 Fév 2027', home: 'CRA', away: 'CSAT', score: '15:00' },
+            { type: 'upcoming', j: 'J17', date: '14 Fév 2027', home: 'AFSO', away: 'CRA', score: '15:00' },
+            { type: 'upcoming', j: 'J18', date: '21 Fév 2027', home: 'CRA', away: 'WARF', score: '15:00' },
+            { type: 'upcoming', j: 'J19', date: '28 Fév 2027', home: 'UST', away: 'CRA', score: '15:00' },
+            { type: 'upcoming', j: 'J20', date: '07 Mar 2027', home: 'CRA', away: 'HLO', score: '15:00' },
+            { type: 'upcoming', j: 'J21', date: '14 Mar 2027', home: 'TSS', away: 'CRA', score: '15:00' },
+            { type: 'upcoming', j: 'J22', date: '21 Mar 2027', home: 'CRA', away: 'WAC ESP', score: '15:00' },
+            { type: 'upcoming', j: 'J23', date: '28 Mar 2027', home: 'HAN', away: 'CRA', score: '15:00' },
+            { type: 'upcoming', j: 'J24', date: '04 Avr 2027', home: 'DHKH', away: 'CRA', score: '15:00' },
+            { type: 'upcoming', j: 'J25', date: '11 Avr 2027', home: 'CRA', away: 'AQST', score: '15:00' },
+            { type: 'upcoming', j: 'J26', date: '18 Avr 2027', home: 'FRN', away: 'CRA', score: '15:00' },
+            { type: 'upcoming', j: 'J27', date: '25 Avr 2027', home: 'CRA', away: 'FUS ESP', score: '15:00' },
+            { type: 'upcoming', j: 'J28', date: '02 Mai 2027', home: 'WSD', away: 'CRA', score: '15:00' },
+            { type: 'upcoming', j: 'J29', date: '09 Mai 2027', home: 'CRA', away: 'ASS', score: '15:00' },
+            { type: 'upcoming', j: 'J30', date: '16 Mai 2027', home: 'EJSC', away: 'CRA', score: '15:00' }
+        ];
+
+        function filterMatches(type, btnElement) {
+            if (btnElement) {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                btnElement.classList.add('active');
+            }
+            const container = document.getElementById('fixtures-container');
+            container.innerHTML = '';
+
+            matchesData.filter(m => m.type === type).forEach(m => {
+                let scoreClass = m.status ? `score-${m.status}` : '';
+                container.innerHTML += `
+                    <div class="fixture-item">
+                        <div class="fixture-meta">
+                            <span>${m.j} • ${m.date}</span>
+                            <span>${m.home === 'CRA' ? 'Domicile' : 'Extérieur'}</span>
+                        </div>
+                        <div class="fixture-row">
+                            <div class="fixture-team">
+                                ${getLogoHtml(m.home)}
+                                <span>${clubs[m.home].name}</span>
+                            </div>
+                            <span class="fixture-score ${scoreClass}">${m.score}</span>
+                            <div class="fixture-team away">
+                                <span>${clubs[m.away].name}</span>
+                                ${getLogoHtml(m.away)}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        filterMatches('upcoming');
     </script>
 
 </body>
