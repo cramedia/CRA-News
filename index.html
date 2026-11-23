@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRA-News | Site Officiel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0056b3;
+            --primary-dark: #003366;
+            --secondary: #0099ff;
+            --bg-light: #f4f7f6;
+            --dark: #0f172a;
+            --white: #ffffff;
+            --gray: #64748b;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
+        body {
+            background-color: var(--bg-light);
+            color: var(--dark);
+        }
+        /* Header */
+        header {
+            background-color: var(--dark);
+            color: var(--white);
+            padding: 12px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 3px solid var(--primary);
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--white);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo img {
+            height: 45px;
+            width: 45px;
+            object-fit: contain;
+            background: var(--white);
+            border-radius: 50%;
+            padding: 3px;
+        }
+        .logo span {
+            color: var(--secondary);
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+        }
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: var(--secondary);
+        }
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            color: var(--white);
+            padding: 60px 5%;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 38px;
+            font-weight: 900;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        .hero p {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+        /* Match Center */
+        .match-center {
+            max-width: 1200px;
+            margin: -40px auto 40px;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+        .card-header {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .match-teams {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            text-align: center;
+            margin: 15px 0;
+        }
+        .team {
+            width: 35%;
+        }
+        .team-logo-img {
+            width: 65px;
+            height: 65px;
+            object-fit: contain;
+            margin: 0 auto 10px;
+            display: block;
+        }
+        .team-logo {
+            width: 65px;
+            height: 65px;
+            background: var(--dark);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            margin: 0 auto 10px;
+            font-size: 18px;
+        }
+        .score-box {
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--dark);
+        }
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .time-box {
+            background: var(--primary);
+            color: var(--white);
+            padding: 8px 12px;
+            border-radius: 6px;
+            text-align: center;
+            min-width: 55px;
+        }
+        .time-box span {
+            display: block;
+            font-size: 18px;
+            font-weight: 700;
+        }
+        .time-box small {
+            font-size: 11px;
+            opacity: 0.8;
+        }
+        .match-info {
+            text-align: center;
+            font-size: 13px;
+            color: var(--gray);
+            margin-top: 15px;
+        }
+        /* Main Layout (News + Standings) */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto 50px;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+        @media (max-width: 900px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            nav ul {
+                display: none;
+            }
+        }
+        .section-title {
+            font-size: 22px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            border-left: 5px solid var(--primary);
+            padding-left: 12px;
+        }
+        /* News Grid */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .news-card {
+            background: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+        .news-card:hover {
+            transform: translateY(-5px);
+        }
+        .news-img {
+            height: 180px;
+            background: linear-gradient(45deg, var(--primary-dark), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: 700;
+        }
+        .news-content {
+            padding: 20px;
+        }
+        .news-date {
+            font-size: 12px;
+            color: var(--primary);
+            font-weight: 700;
+        }
+        .news-title {
+            font-size: 17px;
+            font-weight: 700;
+            margin: 8px 0;
+        }
+        .news-excerpt {
+            font-size: 14px;
+            color: var(--gray);
+        }
+        /* Standings Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        th, td {
+            padding: 12px 8px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        th {
+            background-color: #f8fafc;
+            font-weight: 700;
+            color: var(--gray);
+        }
+        tr.highlight {
+            background-color: #eff6ff;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        /* Store Section */
+        .store-section {
+            max-width: 1200px;
+            margin: 0 auto 60px;
+            padding: 0 20px;
+        }
+        .store-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .product-card {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .product-img {
+            height: 200px;
+            background: #e2e8f0;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+        .price {
+            font-size: 18px;
+            font-weight: 900;
+            color: var(--primary);
+            margin: 10px 0;
+        }
+        .btn {
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: var(--primary-dark);
+        }
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: var(--white);
+            text-align: center;
+            padding: 30px 5%;
+            border-top: 4px solid var(--primary);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#" class="logo">
+            <img src="logo.jpg" alt="CRA Logo">
+            CRA<span>-NEWS</span>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="#">Accueil</a></li>
+                <li><a href="#matches">Calendrier</a></li>
+                <li><a href="#standings">Classement</a></li>
+                <li><a href="#news">Actualités</a></li>
+                <li><a href="#store">Boutique</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>CRA-NEWS • CHABAB RIF AL HOCEIMA</h1>
+        <p>Site d'actualité officiel • Depuis 1953 • Identité Bleue</p>
+    </section>
+
+    <section class="match-center" id="matches">
+        <!-- Dernier Résultat -->
+        <div class="card">
+            <div class="card-header">
+                <span>Dernier Match</span>
+                <span>Terminé</span>
+            </div>
+            <div class="match-teams">
+                <div class="team">
+                    <img src="logo.jpg" alt="CRA" class="team-logo-img">
+                    <strong>CRA</strong>
+                </div>
+                <div class="score-box">2 - 0</div>
+                <div class="team">
+                    <div class="team-logo">ADV</div>
+                    <strong>Adversaire</strong>
+                </div>
+            </div>
+            <div class="match-info">Stade Mimoun Al Arsi • Journée 7</div>
+        </div>
+
+        <!-- Prochain Match -->
+        <div class="card">
+            <div class="card-header">
+                <span>Prochain Match</span>
+                <span>Journée 8</span>
+            </div>
+            <div class="match-teams">
+                <div class="team">
+                    <div class="team-logo">ADV</div>
+                    <strong>Adversaire</strong>
+                </div>
+                <div class="score-box" style="font-size: 20px; color: var(--primary);">VS</div>
+                <div class="team">
+                    <img src="logo.jpg" alt="CRA" class="team-logo-img">
+                    <strong>CRA</strong>
+                </div>
+            </div>
+            <div class="countdown" id="countdown">
+                <div class="time-box"><span id="days">06</span><small>Jours</small></div>
+                <div class="time-box"><span id="hours">14</span><small>Heures</small></div>
+                <div class="time-box"><span id="mins">45</span><small>Min</small></div>
+                <div class="time-box"><span id="secs">30</span><small>Sec</small></div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <!-- Actualités -->
+        <section id="news">
+            <h2 class="section-title">Dernières Actualités</h2>
+            <div class="news-grid">
+                <article class="news-card">
+                    <div class="news-img">PHOTO MATCH</div>
+                    <div class="news-content">
+                        <span class="news-date">22 Novembre 2026</span>
+                        <h3 class="news-title">Victoire importante à domicile devant nos supporters</h3>
+                        <p class="news-excerpt">Le club s'impose avec la manière lors de cette 7ème journée du championnat.</p>
+                    </div>
+                </article>
+                <article class="news-card">
+                    <div class="news-img">ENTRAÎNEMENT</div>
+                    <div class="news-content">
+                        <span class="news-date">19 Novembre 2026</span>
+                        <h3 class="news-title">Préparation intensive avant le déplacement</h3>
+                        <p class="news-excerpt">Le groupe affiche une grande détermination sous la houlette du staff technique.</p>
+                    </div>
+                </article>
+                <article class="news-card">
+                    <div class="news-img">COMMUNIQUÉ</div>
+                    <div class="news-content">
+                        <span class="news-date">15 Novembre 2026</span>
+                        <h3 class="news-title">Ouverture de la campagne d'adhésion 2026/2027</h3>
+                        <p class="news-excerpt">Rejoignez la famille bleue et soutenez votre équipe tout au long de la saison.</p>
+                    </div>
+                </article>
+                <article class="news-card">
+                    <div class="news-img">ACADÉMIE</div>
+                    <div class="news-content">
+                        <span class="news-date">10 Novembre 2026</span>
+                        <h3 class="news-title">Les U15 démarrent la saison par un succès</h3>
+                        <p class="news-excerpt">Nos jeunes talents brillent dès l'entame du championnat régional.</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Classement -->
+        <aside id="standings">
+            <h2 class="section-title">Classement</h2>
+            <div class="card" style="padding: 15px;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Club</th>
+                            <th>MJ</th>
+                            <th>PTS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="highlight">
+                            <td>1</td>
+                            <td>CRA-News</td>
+                            <td>7</td>
+                            <td>16</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Club B</td>
+                            <td>7</td>
+                            <td>14</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Club C</td>
+                            <td>7</td>
+                            <td>13</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Club D</td>
+                            <td>7</td>
+                            <td>11</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>Club E</td>
+                            <td>7</td>
+                            <td>10</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Boutique -->
+    <section class="store-section" id="store">
+        <h2 class="section-title">Boutique Officielle</h2>
+        <div class="store-grid">
+            <div class="product-card">
+                <div class="product-img" style="background: var(--primary); color: white;">MAILLOT BLEU</div>
+                <h3>Maillot Domicile 26/27</h3>
+                <div class="price">200.00 MAD</div>
+                <button class="btn" onclick="alert('Ajouté au panier !')">Commander</button>
+            </div>
+            <div class="product-card">
+                <div class="product-img" style="background: #f8fafc; border: 1px solid #cbd5e1;">MAILLOT BLANC</div>
+                <h3>Maillot Extérieur 26/27</h3>
+                <div class="price">200.00 MAD</div>
+                <button class="btn" onclick="alert('Ajouté au panier !')">Commander</button>
+            </div>
+            <div class="product-card">
+                <div class="product-img" style="background: var(--dark); color: white;">MAILLOT NOIR</div>
+                <h3>Maillot Third 26/27</h3>
+                <div class="price">200.00 MAD</div>
+                <button class="btn" onclick="alert('Ajouté au panier !')">Commander</button>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 CRA-News • Chabab Rif Al Hoceima • Tous droits réservés</p>
+    </footer>
+
+    <script>
+        let totalSeconds = (6 * 86400) + (14 * 3600) + (45 * 60) + 30;
+        setInterval(() => {
+            if (totalSeconds <= 0) return;
+            totalSeconds--;
+            const d = Math.floor(totalSeconds / 86400);
+            const h = Math.floor((totalSeconds % 86400) / 3600);
+            const m = Math.floor((totalSeconds % 3600) / 60);
+            const s = totalSeconds % 60;
+            document.getElementById('days').innerText = String(d).padStart(2, '0');
+            document.getElementById('hours').innerText = String(h).padStart(2, '0');
+            document.getElementById('mins').innerText = String(m).padStart(2, '0');
+            document.getElementById('secs').innerText = String(s).padStart(2, '0');
+        }, 1000);
+    </script>
+
+</body>
+</html>
